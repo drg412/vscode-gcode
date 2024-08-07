@@ -1,0 +1,5 @@
+.vscodeignore
+
+test.nc
+
+vsc-extension-quickstart.md

@@ -1,0 +1,52 @@
+{
+  "G70 Finishing Cycle": {
+    "prefix": "g70",
+    "body": ["G70 P${1} Q${2}"],
+    "description": "Insert a G70 finishing cycle"
+  },
+  "G71 ID/OD Rough Cutting Cycle": {
+    "prefix": "g71",
+    "body": [
+      "G71 U$1 R${2:.03}",
+      "G71 P$3 Q$4 U${5:.0} W${6:.0} F$7",
+      "N$3 $0",
+      "N$4"
+    ],
+    "description": "Insert a G71 OD/ID rough cutting cycle"
+  },
+  "G72 Rough Facing Cycle": {
+    "prefix": "g72",
+    "body": [
+      "G72 W$1 R${2:.03}",
+      "G72 P$3 Q$4 U${5:.0} W${6:.0} F$7",
+      "N$3 $0",
+      "N$4"
+    ],
+    "description": "Insert a G72 rough facing cycle"
+  },
+  "G73 Closed-loop Cutting Cycle": {
+    "prefix": "g73",
+    "body": [
+      "G73 U$1 W$2 R$3",
+      "G73 P$4 Q$5 U${6:.0} W${7:.0} F$8",
+      "N$4 $0",
+      "N$5"
+    ],
+    "description": "Insert a G73 closed-loop cutting cycle"
+  },
+  "Dash-padded Comment": {
+    "prefix": "dash-padded-comment",
+    "body": ["(--- $0 ---)"],
+    "description": "Insert an inline comment padded with dashes"
+  },
+  "Star-padded Comment": {
+    "prefix": "star-padded-comment",
+    "body": ["(*** $0 ***)"],
+    "description": "Insert an inline comment padded with stars"
+  },
+  "Operation Description": {
+    "prefix": "op-description",
+    "body": ["N$1 ($0)"],
+    "description": "Insert a sequence # followed by a comment"
+  }
+}

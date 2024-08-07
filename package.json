@@ -1,0 +1,58 @@
+{
+  "name": "gcode",
+  "displayName": "gcode",
+  "description": "gcode language support",
+  "version": "0.0.1",
+  "publisher": "dustin-random-gray",
+  "engines": {
+    "vscode": "^1.89.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "gcode",
+        "aliases": [
+          "gcode",
+          "G-Code"
+        ],
+        "extensions": [
+          ".nc",
+          ".cnc",
+          ".gcode",
+          ".eia"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "gcode",
+        "scopeName": "source.gcode",
+        "path": "./syntaxes/gcode.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "gcode",
+        "path": "./snippets/gcode.json"
+      }
+    ],
+    "configurationDefaults": {
+      "[gcode]": {
+        "editor.quickSuggestions": {
+          "other": "on",
+          "comments": "off",
+          "strings": "off"
+        },
+        "editor.suggestOnTriggerCharacters": false,
+        "editor.acceptSuggestionOnEnter": "off",
+        "editor.snippetSuggestions": "top",
+        "editor.suggest.snippetsPreventQuickSuggestions": true
+      }
+    }
+  }
+}

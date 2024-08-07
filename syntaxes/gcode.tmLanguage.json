@@ -1,0 +1,380 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "gcode",
+  "scopeName": "source.gcode",
+  "patterns": [
+    {
+      "include": "#statements"
+    }
+  ],
+  "repository": {
+    "statements": {
+      "patterns": [
+        {
+          "include": "#control-statement"
+        },
+        {
+          "include": "#constant"
+        },
+        {
+          "include": "#macro-call"
+        },
+        {
+          "include": "#machining-cycles"
+        },
+        {
+          "include": "#nc-statement"
+        },
+        {
+          "include": "#var-expr"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#expression"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#assigned-variable"
+        }
+      ]
+    },
+    "nc-statement": {
+      "patterns": [
+        {
+          "include": "#nc-command"
+        },
+        {
+          "include": "#nc-position"
+        }
+      ]
+    },
+    "nc-command": {
+      "patterns": [
+        {
+          "name": "support.function.mcode.gcode",
+          "match": "[M][0-9][0-9\\.]*"
+        },
+        {
+          "name": "meta.function-call.gcode.gcode",
+          "match": "[G][0-9][0-9\\.]*"
+        },
+        {
+          "name": "keyword.other.stcode.gcode",
+          "match": "[ST][0-9][0-9\\.]*"
+        },
+        {
+          "name": "support.fcode.gcode",
+          "match": "[FE]\\.?[0-9][0-9\\.]*"
+        },
+        {
+          "name": "keyword.operator.expression.instanceof.rcode.gcode",
+          "match": "[IJKR]\\-?\\.?[0-9][0-9\\.]*"
+        }
+      ]
+    },
+    "nc-position": {
+      "patterns": [
+        {
+          "name": "string.x.gcode",
+          "match": "[XU]\\-?\\d*(?:\\.\\d*)?|[XU](?=[\\[\\#])"
+        },
+        {
+          "name": "support.class.y.gcode",
+          "match": "[YV]\\-?\\d*(?:\\.\\d*)?|[YV](?=[\\[\\#])"
+        },
+        {
+          "name": "variable.other.constant.z.gcode",
+          "match": "[ZW]\\-?\\d*(?:\\.\\d*)?|[ZW](?=[\\[\\#])"
+        }
+      ]
+    },
+    "var-expr": {
+      "patterns": [
+        {
+          "name": "meta.var.expr.gcode",
+          "begin": "\\s*(\\#\\d+)\\s*(\\=)",
+          "beginCaptures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#variable-definition"
+                }
+              ]
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#operator"
+                }
+              ]
+            }
+          },
+          "end": "\\n",
+          "patterns": [
+            {
+              "include": "#assigned-variable"
+            },
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#constant"
+            },
+            {
+              "include": "#operator"
+            }
+          ]
+        }
+      ]
+    },
+    "variable-definition": {
+      "patterns": [
+        {
+          "name": "meta.definition.variable",
+          "match": "^\\s*\\#\\d+"
+        }
+      ]
+    },
+    "assigned-variable": {
+      "patterns": [
+        {
+          "name": "variable.other.readwrite.gcode",
+          "match": "\\#\\d+"
+        }
+      ]
+    },
+    "control-statement": {
+      "patterns": [
+        {
+          "name": "keyword.control.flow.gcode",
+          "match": "(?:IF|WHILE|DO|END|THEN)"
+        },
+        {
+          "name": "keyword.control.return.gcode",
+          "match": "(?:GOTO)"
+        }
+      ]
+    },
+    "operator": {
+      "patterns": [
+        {
+          "include": "#arithmetic-assignment-operators"
+        },
+        {
+          "name": "keyword.operator.comparison.gcode",
+          "match": "(?:EQ|NE)"
+        },
+        {
+          "name": "keyword.operator.relational.gcode",
+          "match": "(?:GT|LT|GE|LE)"
+        },
+        {
+          "name": "keyword.operator.logical.gcode",
+          "match": "(AND|OR|XOR)"
+        }
+      ]
+    },
+    "arithmetic-assignment-operators": {
+      "patterns": [
+        {
+          "match": "(\\*|\\/|\\+|\\-)|(\\=)",
+          "captures": {
+            "1": { "name": "keyword.operator.arithmetic.gcode" },
+            "2": { "name": "keyword.operator.assignment.gcode" }
+          }
+        }
+      ]
+    },
+    "expression": {
+      "name": "meta.expression.gcode",
+      "begin": "\\s*(\\[)",
+      "beginCaptures": {
+        "1": {
+          "name": "meta.brace.square.gcode"
+        }
+      },
+      "end": "\\]",
+      "endCaptures": {
+        "0": {
+          "name": "meta.brace.square.gcode"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#conrol-statement"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#assigned-variable"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#constant"
+        }
+      ]
+    },
+    "macro-call": {
+      "name": "meta.function-call.gcode",
+      "begin": "G65|G66",
+      "end": "\\n",
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#assigned-variable"
+        },
+        {
+          "include": "#expression"
+        },
+        {
+          "name": "invalid.argument.gcode",
+          "match": "[^A-F|H-K|M|Q-Z|PL|\\s]\\-?\\d*\\.?\\d*"
+        },
+        {
+          "name": "string.argument.gcode",
+          "match": "[PL]\\d+"
+        },
+        {
+          "name": "variable.parameter.gcode",
+          "match": "[A-F|H-K|M|Q-Z]\\-?\\d*\\.?\\d*"
+        }
+      ]
+    },
+    "machining-cycles": {
+      "name": "",
+      "patterns": [
+        {
+          "name": "meta.function-call.gcode",
+          "begin": "G70",
+          "end": "\\n",
+          "patterns": [
+            {
+              "name": "invalid.argument.gcode",
+              "match": "[^APQ\\s]\\d+"
+            },
+            {
+              "name": "variable.parameter.gcode",
+              "match": "[APQ]\\d+"
+            }
+          ]
+        },
+        {
+          "name": "meta.function-call.gcode",
+          "begin": "G71|G72",
+          "end": "\\n",
+          "patterns": [
+            {
+              "name": "invalid.argument.gcode",
+              "match": "([^APQSTHURWFD\\sequence])\\-?\\d*\\.?\\d*"
+            },
+            {
+              "name": "variable.parameter.gcode",
+              "match": "[APQSTH]\\d+"
+            },
+            {
+              "name": "variable.parameter.gcode",
+              "match": "[URWFD]\\-?\\d*\\.?\\d*"
+            }
+          ]
+        },
+        {
+          "name": "meta.function-call.gcode",
+          "begin": "G73",
+          "end": "\\n",
+          "patterns": [
+            {
+              "name": "invalid.argument.gcode",
+              "match": "[^APQSTHURWFDIK\\s]\\-?\\d*\\.?\\d*"
+            },
+            {
+              "name": "variable.parameter.gcode",
+              "match": "[APQSTHRD]\\d+"
+            },
+            {
+              "name": "variable.parameter.gcode",
+              "match": "[UWFIK]\\-?\\d*\\.?\\d*"
+            }
+          ]
+        },
+        {
+          "name": "meta.function-call.gcode",
+          "begin": "G74|G75",
+          "end": "\\n",
+          "patterns": [
+            {
+              "name": "invalid.argument.gcode",
+              "match": "[^RXZUWPIQKDF\\s]\\-?\\d*\\.?\\d*"
+            },
+            {
+              "name": "variable.parameter.gcode",
+              "match": "[RXZUWPIQKDF]\\-?\\d*\\.?\\d*"
+            }
+          ]
+        },
+        {
+          "name": "meta.function-call.gcode",
+          "begin": "G76",
+          "end": "\\n",
+          "patterns": [
+            {
+              "name": "invalid.argument.gcode",
+              "match": "[^PRXUZWQFIKDA\\s]\\-?\\d*\\.?\\d*"
+            },
+            {
+              "name": "variable.parameter.gcode",
+              "match": "[PRXUZWQFIKDA]\\-?\\d*\\.?\\d*"
+            }
+          ]
+        }
+      ]
+    },
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.line.parentheses.gcode",
+          "match": "(\\(.+\\))"
+        }
+      ]
+    },
+    "constant": {
+      "patterns": [
+        {
+          "name": "invalid.gcode",
+          "match": ".\\-?\\d?\\.\\d+\\."
+        },
+        {
+          "name": "constant.numeric.decimal.gcode",
+          "match": "\\-?\\d*\\.?\\d+"
+        },
+        {
+          "name": "entity.name.sequence-program-number.gcode",
+          "match": "[NO]\\d+"
+        },
+        {
+          "name": "punctuation.separator.gcode",
+          "match": "\\,"
+        },
+        {
+          "include": "#built-in-functions"
+        }
+      ]
+    },
+    "built-in-functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.gcode",
+          "match": "SIN|COS|TAN|ASIN|ACOS|ATAN|ROUND|FIX|FUP|SQRT|MOD|ABS|LN|EXP|BIN|BCD"
+        }
+      ]
+    }
+  }
+}
