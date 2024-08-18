@@ -227,21 +227,15 @@
       "end": "\\n",
       "patterns": [
         {
-          "include": "#comment"
-        },
-        {
-          "include": "#assigned-variable"
-        },
-        {
-          "include": "#expression"
+          "include": "#call-statement-injection"
         },
         {
           "name": "invalid.argument.gcode",
-          "match": "[^A-F|H-K|M|Q-Z|PL|\\s]\\-?\\d*\\.?\\d*"
+          "match": "(?![A-F|H-K|M|Q-Z|PL])[A-Z]\\-?\\d*\\.?\\d*"
         },
         {
           "name": "string.argument.gcode",
-          "match": "[PL]\\d+"
+          "match": "[PL](?:\\d*|\\#*)"
         },
         {
           "name": "variable.parameter.gcode",
@@ -258,12 +252,15 @@
           "end": "\\n",
           "patterns": [
             {
+              "include": "#call-statement-injection"
+            },
+            {
               "name": "invalid.argument.gcode",
-              "match": "[^APQ\\s]\\d+"
+              "match": "(?[^APQ])[A-Z]\\-?\\d*\\.?\\d*"
             },
             {
               "name": "variable.parameter.gcode",
-              "match": "[APQ]\\d+"
+              "match": "[APQ]\\d+(?:\\d*|\\#*)"
             }
           ]
         },
@@ -277,7 +274,7 @@
             },
             {
               "name": "invalid.argument.gcode",
-              "match": "([^APQSTHURWFD\\s])\\-?\\d*\\.?\\d*"
+              "match": "(?![APQSTHURWFD])[A-Z]\\-?\\d*\\.?\\d*"
             },
             {
               "name": "variable.parameter.gcode",
@@ -285,7 +282,7 @@
             },
             {
               "name": "variable.parameter.gcode",
-              "match": "[URWFD](\\-?\\d*\\.?\\d*)+"
+              "match": "[URWFD]\\-?\\d*\\.?\\d*"
             }
           ]
         },
@@ -295,25 +292,19 @@
           "end": "\\n",
           "patterns": [
             {
-              "include": "#comment"
+              "include": "#call-statement-injection"
             },
             {
               "name": "invalid.argument.gcode",
-              "match": "(?![APQSTHURWFDIK])[A-Z]\\-?\\#?\\d*\\.?\\d*"
+              "match": "(?![APQSTHURWFDIK])[A-Z]\\-?\\d*\\.?\\d*"
             },
             {
               "name": "variable.parameter.gcode",
-              "match": "[APQSTHRD]\\d*"
+              "match": "[APQSTHRD](?:\\d*|\\#*)"
             },
             {
               "name": "variable.parameter.gcode",
               "match": "[UWFIK]\\-?\\d*\\.?\\d*"
-            },
-            {
-              "include": "#expression"
-            },
-            {
-              "include": "#assigned variable"
             }
           ]
         },
@@ -323,8 +314,11 @@
           "end": "\\n",
           "patterns": [
             {
+              "include": "#call-statement-injection"
+            },
+            {
               "name": "invalid.argument.gcode",
-              "match": "[^RXZUWPIQKDF\\s]\\-?\\d*\\.?\\d*"
+              "match": "(?![RXZUWPIQKDF])[A-Z]\\-?\\d*\\.?\\d*"
             },
             {
               "name": "variable.parameter.gcode",
@@ -339,7 +333,7 @@
           "patterns": [
             {
               "name": "invalid.argument.gcode",
-              "match": "[^PRXUZWQFIKDA\\s]\\-?\\d*\\.?\\d*"
+              "match": "(?![PRXUZWQFIKDA])[A-Z]\\-?\\d*\\.?\\d*"
             },
             {
               "name": "variable.parameter.gcode",

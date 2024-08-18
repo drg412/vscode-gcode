@@ -3,6 +3,7 @@
   "displayName": "gcode",
   "description": "gcode language support",
   "version": "0.0.1",
+  "main": "./extension.js",
   "publisher": "dustin-random-gray",
   "engines": {
     "vscode": "^1.89.0"
@@ -39,6 +40,19 @@
       {
         "language": "gcode",
         "path": "./snippets/gcode.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.commentWithParens",
+        "title": "Toggle Comment [GCode]"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "ctrl+/",
+        "command": "extension.commentWithParens",
+        "when": "editorTextFocus && !editorReadonly && editorLangId == gcode"
       }
     ],
     "configurationDefaults": {
