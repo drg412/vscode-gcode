@@ -44,14 +44,14 @@
     ],
     "commands": [
       {
-        "command": "extension.commentWithParens",
-        "title": "Toggle Comment [GCode]"
+        "command": "extension.commentLine",
+        "title": "Toggle Line Comment"
       }
     ],
     "keybindings": [
       {
         "key": "ctrl+/",
-        "command": "extension.commentWithParens",
+        "command": "extension.commentLine",
         "when": "editorTextFocus && !editorReadonly && editorLangId == gcode"
       }
     ],
@@ -60,9 +60,9 @@
         "editor.quickSuggestions": {
           "other": "on",
           "comments": "off",
-          "strings": "off"
+          "strings": "on"
         },
-        "editor.suggestOnTriggerCharacters": false,
+        "editor.suggestOnTriggerCharacters": true,
         "editor.acceptSuggestionOnEnter": "off",
         "editor.snippetSuggestions": "top",
         "editor.suggest.snippetsPreventQuickSuggestions": true

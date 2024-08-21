@@ -3,35 +3,52 @@
 const vscode = require('vscode');
 
 function activate(context) {
-  console.log('in the activation');
+  // console.log('in the activation');
 
   let disposable = vscode.commands.registerCommand(
-    'extension.commentWithParens',
+    'extension.commentLine',
     function () {
       const editor = vscode.window.activeTextEditor;
       if (!editor) {
         return;
       }
-      console.log('hello callback');
+      // console.log('hello callback');
 
       const selections = editor.selections;
 
       editor.edit((editBuilder) => {
         selections.forEach((selection) => {
-          // Get the line numbers for the selection
+          // Get the start and end line numbers of the selection
           const startLine = selection.start.line;
           const endLine = selection.end.line;
 
-          // Retieve the text for the start and end lines
-          const startLineText = editor.document.lineAt(startLine).text;
-          const endLineText = editor.document.lineAt(endLine).text;
+          // Determine the leftmost index across the entire selection
+          let leftmostIndex;
+          for (let i = startLine; i <= endLine; i++) {
+            const lineText = editor.document.lineAt(i).text;
+            const firstNonWhitespaceIndex = lineText.match(/\S/)?.index;
 
-          // Create a range that covers the entire line?
+            if (
+              firstNonWhitespaceIndex !== undefined &&
+              (leftmostIndex === undefined ||
+                firstNonWhitespaceIndex < leftmostIndex)
+            ) {
+              leftmostIndex = firstNonWhitespaceIndex;
+            }
+          }
+
+          if (leftmostIndex === undefined) {
+            leftmostIndex = 0;
+          }
+
+          console.log(`Leftmost index: ${leftmostIndex}`);
+
+          // Create a range that covers the entire selection
           const range = new vscode.Range(
             startLine,
             0,
             endLine,
-            endLineText.length
+            editor.document.lineAt(endLine).text.length
           );
 
           // Retrieve the text within the range
@@ -39,11 +56,21 @@ function activate(context) {
 
           const lines = text.split(/\r\n|\r|\n/);
 
-          console.log(text);
-          console.log(lines);
+          // console.log(text);
+          // console.log(lines);
           let isCommented = false;
 
-          const newText = lines.map((line) => `( ${line} )`).join('\n');
+          // TODO: Now we need to permit UNCOMMENTING if all lines are already comments
+
+          // TODO: Rename command or have 2 commands?
+
+          const newText = lines
+            .map((line) => {
+              const currentIndentation = line.slice(0, leftmostIndex);
+              return `${currentIndentation}( ${line.slice(leftmostIndex)} )`;
+            })
+            .join('\n');
+
           editBuilder.replace(range, newText);
         });
       });
