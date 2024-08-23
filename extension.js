@@ -3,8 +3,6 @@
 const vscode = require('vscode');
 
 function activate(context) {
-  // console.log('in the activation');
-
   let disposable = vscode.commands.registerCommand(
     'extension.commentLine',
     function () {
@@ -12,7 +10,6 @@ function activate(context) {
       if (!editor) {
         return;
       }
-      // console.log('hello callback');
 
       const selections = editor.selections;
 
@@ -41,8 +38,6 @@ function activate(context) {
             leftmostIndex = 0;
           }
 
-          console.log(`Leftmost index: ${leftmostIndex}`);
-
           // Create a range that covers the entire selection
           const range = new vscode.Range(
             startLine,
@@ -56,28 +51,25 @@ function activate(context) {
 
           const lines = text.split(/\r\n|\r|\n/);
 
-          // console.log(text);
-          // console.log(lines);
           let isCommented = false;
-
           // TODO: Now we need to permit UNCOMMENTING if all lines are already comments
 
           // TODO: Rename command or have 2 commands?
 
           const newText = lines
             .map((line) => {
-              const currentIndentation = line.slice(0, leftmostIndex);
-              return `${currentIndentation}( ${line.slice(leftmostIndex)} )`;
+              if (line.trim() === '') {
+                return '';
+              } else {
+                const currentIndentation = line.slice(0, leftmostIndex);
+                return `${currentIndentation}( ${line.slice(leftmostIndex)} )`;
+              }
             })
             .join('\n');
 
           editBuilder.replace(range, newText);
         });
       });
-      // // const editor = vscode.window.activateTextEditor;
-      // // if (!editor) {
-      // //   return;
-      // vscode.window.showInformationMessage('Hello World!');
     }
   );
 
