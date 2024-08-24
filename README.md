@@ -1,8 +1,56 @@
-# gcode README
+# _[Unnammed Extension]_ GCode Syntax Highlighting and Snippets for VS Code
 
-This is the README for your extension "gcode". After writing up a brief description, we recommend including the following sections.
+## Description
+
+This extension offers syntax highlighting and a collection of useful code snippets for G-code-based CNC programs, designed to make G-code files easier to read and write, and to improve your productivity and accuracy.
+
+The extension is initially being developed for lathe programs using a Mitsubishi CNC control, which is a Fanuc-like control.
 
 ## Features
+
+- **Syntax Highlighting**: Automatic syntax highlighting for G-code files, making your code more readable and easier to debug.
+  
+  - The highlighting uses colors based on the current theme. Unfortunately, most themes (if any?) will not target certain elements of a CNC program. Position-based words are currently highlighted using the following scopes, which are not semantically accurate, but seemed to apply a different colorization to each of the `X`, `Y`, and `Z` positions.
+
+    - `X` & `U`: `string`
+    - `Y` & `V`: `support.class`
+    - `Z` & `W`: `variable.other.constant`
+
+- **Code Snippets**: Convenient snippets for common GC-code commands and patterns, helping you write code faster and with fewer errors.
+
+  - `G70` | `G71` | `G72` | `G73`
+
+  - `op-description`: inserts a sequence # followed by a comment
+    - example: `N1000 (FACE OFF)`
+  
+  - `star-padded-comment`: inserts a comment padded with stars
+    - example: `(*** A COMMENT ***)`
+  
+  - `dash-pasdded-comment`: inserts a comment padded with dashes
+    - example: `(--- ANOTHER COMMENT ---)`
+
+- **Commands**
+
+  - Toggle line comment `ctrl+/`: Toggles parentheses-based line comments for the current line or selected text.
+
+These features will be applied to files with the following extensions:
+
+``` json
+[".nc", ".cnc", ".eia", ".gcode"]
+```
+
+Additional file extensions can be included by adding the following to your user or workspace `settings.json`:
+
+```json
+{
+  "files.associations": {
+    "*.ext1": "gcode",
+    "*.ext2": "gcode",
+    "*.ext3": "gcode"
+  }
+}
+// This will associate files with extensions of ".ext1", ".ext2", and ".ext3"
+```
 
 Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
@@ -14,52 +62,35 @@ For example if there is an image subfolder under your extension project workspac
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+No requirements at this time.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension includes default settings for G-code files. These defaults are automatically applied when the extension is installed.
 
-For example:
+### Default Settings
 
-This extension contributes the following settings:
+The following default settings are applied to GCode files:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+```json
+{
+  "[gcode]": {
+    "editor.suggestOnTriggerCharacters": true,
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.snippetSuggestions": "top",
+    "editor.suggest.snippetsPreventQuickSuggestions": true
+  }
+}
+```
+
+You can override these defaults by editing your settings.json file in VS Code.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+There are no known issues at this time.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+...
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+### x.x.x

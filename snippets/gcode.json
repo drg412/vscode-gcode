@@ -1,7 +1,7 @@
 {
   "G70 Finishing Cycle": {
     "prefix": "g70",
-    "body": ["G70 P${1} Q${2}"],
+    "body": ["G70 P${1} Q${0}"],
     "description": "Insert a G70 finishing cycle"
   },
   "G71 ID/OD Rough Cutting Cycle": {

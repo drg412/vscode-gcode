@@ -4,7 +4,7 @@
   "description": "gcode language support",
   "version": "0.0.1",
   "main": "./extension.js",
-  "publisher": "dustin-random-gray",
+  "publisher": "drg412",
   "engines": {
     "vscode": "^1.89.0"
   },
@@ -57,11 +57,6 @@
     ],
     "configurationDefaults": {
       "[gcode]": {
-        "editor.quickSuggestions": {
-          "other": "on",
-          "comments": "off",
-          "strings": "on"
-        },
         "editor.suggestOnTriggerCharacters": true,
         "editor.acceptSuggestionOnEnter": "off",
         "editor.snippetSuggestions": "top",

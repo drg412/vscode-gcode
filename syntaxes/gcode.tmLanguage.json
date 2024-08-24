@@ -256,11 +256,11 @@
             },
             {
               "name": "invalid.argument.gcode",
-              "match": "(?[^APQ])[A-Z]\\-?\\d*\\.?\\d*"
+              "match": "(?![APQ])[A-Z]\\-?\\d*\\.?\\d*"
             },
             {
               "name": "variable.parameter.gcode",
-              "match": "[APQ]\\d+(?:\\d*|\\#*)"
+              "match": "[URWFD]\\-?\\d*\\.?\\d*"
             }
           ]
         },
