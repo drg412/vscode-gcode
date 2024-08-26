@@ -2,7 +2,7 @@
   "name": "gcode",
   "displayName": "gcode",
   "description": "gcode language support",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./extension.js",
   "publisher": "drg412",
   "repository": {
