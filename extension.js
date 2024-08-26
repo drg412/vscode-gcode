@@ -12,62 +12,91 @@ function activate(context) {
       }
 
       const selections = editor.selections;
-
       editor.edit((editBuilder) => {
         selections.forEach((selection) => {
-          // Get the start and end line numbers of the selection
           const startLine = selection.start.line;
           const endLine = selection.end.line;
 
-          // Determine the leftmost index across the entire selection
           let leftmostIndex;
+          let allLinesCommented = true;
+          const lines = [];
+
           for (let i = startLine; i <= endLine; i++) {
-            const lineText = editor.document.lineAt(i).text;
-            const firstNonWhitespaceIndex = lineText.match(/\S/)?.index;
+            const line = editor.document.lineAt(i).text;
+            lines.push(line);
+            const firstNonWhitespaceIndex = line.search(/\S/);
 
             if (
-              firstNonWhitespaceIndex !== undefined &&
+              firstNonWhitespaceIndex !== -1 &&
               (leftmostIndex === undefined ||
                 firstNonWhitespaceIndex < leftmostIndex)
             ) {
               leftmostIndex = firstNonWhitespaceIndex;
             }
+
+            const trimmedLine = line.trim();
+            if (allLinesCommented) {
+              if (!(trimmedLine.startsWith('(') && line.trim().endsWith(')'))) {
+                allLinesCommented = false;
+              }
+            }
           }
 
-          if (leftmostIndex === undefined) {
-            leftmostIndex = 0;
+          const newLines = lines.map((line) => {
+            if (allLinesCommented) {
+              // Uncomment the line
+              return (
+                line.slice(0, leftmostIndex) +
+                line.slice(leftmostIndex + 1, line.length - 1)
+              ).trim();
+            } else {
+              // Comment the line
+              return (
+                line.slice(0, leftmostIndex) +
+                '( ' +
+                line.slice(leftmostIndex) +
+                ' )'
+              );
+            }
+          });
+          // if (leftmostIndex === undefined) {
+          //   leftmostIndex = 0;
+          // }
+
+          for (let i = startLine; i <= endLine; i++) {
+            const range = new vscode.Range(
+              i,
+              0,
+              i,
+              editor.document.lineAt(i).text.length
+            );
+            editBuilder.replace(range, newLines[i - startLine]);
           }
 
           // Create a range that covers the entire selection
-          const range = new vscode.Range(
-            startLine,
-            0,
-            endLine,
-            editor.document.lineAt(endLine).text.length
-          );
+          // const range = new vscode.Range(
+          //   startLine,
+          //   0,
+          //   endLine,
+          //   editor.document.lineAt(endLine).text.length
+          // );
 
-          // Retrieve the text within the range
-          const text = editor.document.getText(range);
+          // Retrieve the text within the range and split into lines
+          // const text = editor.document.getText(range);
+          // const lines = text.split(/\r\n|\r|\n/);
 
-          const lines = text.split(/\r\n|\r|\n/);
+          // newText = lines
+          //   .map((line) => {
+          //     if (line.trim() === '') {
+          //       return '';
+          //     } else {
+          //       const currentIndentation = line.slice(0, leftmostIndex);
+          //       return `${currentIndentation}( ${line.slice(leftmostIndex)} )`;
+          //     }
+          //   })
+          //   .join('\n');
 
-          let isCommented = false;
-          // TODO: Now we need to permit UNCOMMENTING if all lines are already comments
-
-          // TODO: Rename command or have 2 commands?
-
-          const newText = lines
-            .map((line) => {
-              if (line.trim() === '') {
-                return '';
-              } else {
-                const currentIndentation = line.slice(0, leftmostIndex);
-                return `${currentIndentation}( ${line.slice(leftmostIndex)} )`;
-              }
-            })
-            .join('\n');
-
-          editBuilder.replace(range, newText);
+          // editBuilder.replace(range, newText);
         });
       });
     }
