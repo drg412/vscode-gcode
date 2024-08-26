@@ -1,41 +1,45 @@
-# _[Unnammed Extension]_ G-code Syntax Highlighting and Snippets for VS Code
+# G-code Syntax
 
 ## Description
 
-This extension offers syntax highlighting and a collection of useful code snippets for G-code-based CNC programs, designed to make G-code files easier to read and write, and to improve your productivity and accuracy.
+This extension offers syntax highlighting and a small collection of code snippets for G-code-based CNC programs.
 
-The extension is initially being developed for creating programs lathe programs based on a Mitsubishi 700 Series CNC control, which is a "Fanuc-like" control.
+The extension is currently based on using a Mitsubishi 700 Series CNC control (lathe system), which is a "Fanuc-like" control.
 
 ## Features
 
-- **Syntax Highlighting**: Automatic syntax highlighting for G-code files, making your code more readable and easier to debug.
+### Syntax Highlighting
   
-  - The highlighting uses colors based on the current theme. Unfortunately, most themes (if any?) will not target many elements of a CNC program. I had to mostly apply scopes that were not semantically accurate to get the syntax highlighting that I wanted. There will be some themes where the highlighting does not look so good. This is because there is no consistency in the scopes that the various themes are targeting.
-  
-  - I wanted the `X`, `Y`, & `Z` coordinate positions to be highlighted with unique colors. Position-based words are currently highlighted using the following scopes to achieve this:
+- Highlighting uses colors based on the current theme. Unfortunately, most themes (if any?) will not target many elements of a CNC program. I had to mostly apply scopes that were not semantically accurate to get the syntax highlighting that I wanted. There will be some themes where the highlighting does not look so good. This is because there is no consistency in the scopes that the various themes are targeting.
 
-    - `X` & `U`: `string`
-    - `Y` & `V`: `support.class`
-    - `Z` & `W`: `storage.type`
+- An attempt was made to highlight the `X`, `Y`, & `Z` coordinate positions with unique colors. Position-based words for these axes are currently highlighted using the following scopes:
 
-- **Code Snippets**: Convenient snippets for common G-code commands and patterns, helping you write code faster and with fewer errors.
+  - `X` & `U`: `string`
+  - `Y` & `V`: `support.class`
+  - `Z` & `W`: `storage.type`
 
-  - `G70` | `G71` | `G72` | `G73`
+### **Code Snippets**
 
-  - `op-description`: inserts a sequence # followed by a comment
-    - example: `N1000 (FACE OFF)`
-  
-  - `star-padded-comment`: inserts a comment padded with stars
-    - example: `(*** A COMMENT ***)`
-  
-  - `dash-padded-comment`: inserts a comment padded with dashes
-    - example: `(--- ANOTHER COMMENT ---)`
+Convenient snippets for common G-code commands and patterns:
 
-- **Commands**
+- `G70` | `G71` | `G72` | `G73`
 
-  - Toggle line comment `ctrl+/`: Toggles parentheses-based line comments for the current line or selected text.
+- `op-description`: inserts a sequence # followed by a comment
+  - example: `N1000 (FACE OFF)`
 
-These features will be applied to files with the following extensions:
+- `star-padded-comment`: inserts a comment padded with stars
+  - example: `(*** A COMMENT ***)`
+
+- `dash-padded-comment`: inserts a comment padded with dashes
+  - example: `(--- ANOTHER COMMENT ---)`
+
+### Commands
+
+- Toggle Line Comment `ctrl+/`: Toggles parentheses-based line comments for the current line or selected text.
+
+### File Extensions
+
+The above features will be applied to files with the following extensions:
 
 ``` json
 [".nc", ".cnc", ".eia", ".gcode"]
@@ -54,14 +58,6 @@ Additional file extensions can be included by adding the following to your user 
 // This will associate files with extensions of ".ext1", ".ext2", and ".ext3"
 ```
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
 ## Requirements
 
 No requirements at this time.
@@ -72,7 +68,7 @@ This extension includes default settings for G-code files. These defaults are au
 
 ### Default Settings
 
-The following default settings are applied to GCode files:
+The following default settings are applied to G-code files:
 
 ```json
 {
@@ -85,14 +81,12 @@ The following default settings are applied to GCode files:
 }
 ```
 
-You can override these defaults by editing your settings.json file in VS Code.
-
 ## Known Issues
 
 There are no known issues at this time.
 
 ## Release Notes
 
-...
+### 0.1.0
 
-### x.x.x
+Initial release
