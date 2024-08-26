@@ -5,6 +5,10 @@
   "version": "0.0.1",
   "main": "./extension.js",
   "publisher": "drg412",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drg412/vscode-gcode"
+  },
   "engines": {
     "vscode": "^1.89.0"
   },

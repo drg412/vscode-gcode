@@ -35,7 +35,7 @@ Convenient snippets for common G-code commands and patterns:
 
 ### Commands
 
-- Toggle Line Comment `ctrl+/`: Toggles parentheses-based line comments for the current line or selected text.
+- Toggle Line Comment `ctrl+/`: Toggles parentheses-based line comments for the current line(s)/selected text.
 
 ### File Extensions
 
