@@ -20,6 +20,9 @@
           "include": "#macro-call"
         },
         {
+          "include": "#subprogram-call"
+        },
+        {
           "include": "#machining-cycles"
         },
         {
@@ -63,16 +66,12 @@
           "match": "[G][0-9][0-9\\.]*"
         },
         {
-          "name": "keyword.other.stcode.gcode",
+          "name": "constant.other.stcode.gcode",
           "match": "[ST][0-9][0-9\\.]*"
         },
         {
           "name": "support.fcode.gcode",
           "match": "[FE]\\.?[0-9][0-9\\.]*"
-        },
-        {
-          "name": "keyword.operator.expression.instanceof.rcode.gcode",
-          "match": "[IJKR]\\-?\\.?[0-9][0-9\\.]*"
         }
       ]
     },
@@ -87,8 +86,21 @@
           "match": "[YV]\\-?\\d*(?:\\.\\d*)?|[YV](?=[\\[\\#])"
         },
         {
-          "name": "variable.other.constant.z.gcode",
+          "name": "storage.type.z.gcode",
           "match": "[ZW]\\-?\\d*(?:\\.\\d*)?|[ZW](?=[\\[\\#])"
+        },
+        {
+          "name": "punctuation.definition.tag.rcode.gcode",
+          "match": "[IJKR]\\-?\\.?[0-9][0-9\\.]*"
+        },
+        {
+          "name": "keyword.control.import.gcode",
+          "match": "[ABCHP]\\-?\\d*(?:\\.\\d*)?|[ABCHP](?=[\\[\\#])"
+        },
+        {
+          "name": "other.gcode",
+          "match": "[A-Za-z]\\-?\\d*(?:\\.\\d*)?|[A-Za-z](?=[\\[\\#])",
+          "comment": "to catch untokenized words and style as 'source.gcode"
         }
       ]
     },
@@ -235,11 +247,40 @@
         },
         {
           "name": "string.argument.gcode",
+          "match": "\\<.*\\>"
+        },
+        {
+          "name": "string.argument.gcode",
           "match": "[PL](?:\\d*|\\#*)"
         },
         {
           "name": "variable.parameter.gcode",
           "match": "[A-F|H-K|M|Q-Z]\\-?\\d*\\.?\\d*"
+        }
+      ]
+    },
+    "subprogram-call": {
+      "name": "meta.function-call.gcode",
+      "begin": "M98|M198",
+      "end": "\\n",
+      "patterns": [
+        {
+          "include": "#call-statement-injection"
+        },
+        {
+          "include": "#entity.name.program-name.gcode"
+        },
+        {
+          "name": "invalid.argument.gcode",
+          "match": "(?![PHDL])[A-Z]\\-?\\d*\\.?\\d*"
+        },
+        {
+          "name": "string.argument.gcode",
+          "match": "\\<.*\\>"
+        },
+        {
+          "name": "string.argument.gcode",
+          "match": "[PHLD](?:\\d*|\\#*)"
         }
       ]
     },
@@ -377,6 +418,10 @@
         {
           "name": "entity.name.sequence-program-number.gcode",
           "match": "[NO]\\d+"
+        },
+        {
+          "name": "entity.name.program-name.gcode",
+          "match": "\\<.*\\>"
         },
         {
           "name": "punctuation.separator.gcode",

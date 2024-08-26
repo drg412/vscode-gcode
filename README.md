@@ -1,22 +1,24 @@
-# _[Unnammed Extension]_ GCode Syntax Highlighting and Snippets for VS Code
+# _[Unnammed Extension]_ G-code Syntax Highlighting and Snippets for VS Code
 
 ## Description
 
 This extension offers syntax highlighting and a collection of useful code snippets for G-code-based CNC programs, designed to make G-code files easier to read and write, and to improve your productivity and accuracy.
 
-The extension is initially being developed for lathe programs using a Mitsubishi CNC control, which is a Fanuc-like control.
+The extension is initially being developed for creating programs lathe programs based on a Mitsubishi 700 Series CNC control, which is a "Fanuc-like" control.
 
 ## Features
 
 - **Syntax Highlighting**: Automatic syntax highlighting for G-code files, making your code more readable and easier to debug.
   
-  - The highlighting uses colors based on the current theme. Unfortunately, most themes (if any?) will not target certain elements of a CNC program. Position-based words are currently highlighted using the following scopes, which are not semantically accurate, but seemed to apply a different colorization to each of the `X`, `Y`, and `Z` positions.
+  - The highlighting uses colors based on the current theme. Unfortunately, most themes (if any?) will not target many elements of a CNC program. I had to mostly apply scopes that were not semantically accurate to get the syntax highlighting that I wanted. There will be some themes where the highlighting does not look so good. This is because there is no consistency in the scopes that the various themes are targeting.
+  
+  - I wanted the `X`, `Y`, & `Z` coordinate positions to be highlighted with unique colors. Position-based words are currently highlighted using the following scopes to achieve this:
 
     - `X` & `U`: `string`
     - `Y` & `V`: `support.class`
-    - `Z` & `W`: `variable.other.constant`
+    - `Z` & `W`: `storage.type`
 
-- **Code Snippets**: Convenient snippets for common GC-code commands and patterns, helping you write code faster and with fewer errors.
+- **Code Snippets**: Convenient snippets for common G-code commands and patterns, helping you write code faster and with fewer errors.
 
   - `G70` | `G71` | `G72` | `G73`
 
@@ -26,7 +28,7 @@ The extension is initially being developed for lathe programs using a Mitsubishi
   - `star-padded-comment`: inserts a comment padded with stars
     - example: `(*** A COMMENT ***)`
   
-  - `dash-pasdded-comment`: inserts a comment padded with dashes
+  - `dash-padded-comment`: inserts a comment padded with dashes
     - example: `(--- ANOTHER COMMENT ---)`
 
 - **Commands**
